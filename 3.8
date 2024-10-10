@@ -1,0 +1,21 @@
+def send_email(message, recipient, *, sender="help@gmail.com"):
+    # Проверка на корректность e-mail отправителя и получателя
+    valid_domains = [".com", ".ru", ".net"]
+    if ("@" not in recipient or not any(recipient.endswith(domain) for domain in valid_domains) or
+        "@" not in sender or not any(sender.endswith(domain) for domain in valid_domains)):
+        print(f"Невозможно отправить письмо с адреса {sender} на адрес {recipient}.")
+    # Проверка на отправку самому себе
+    elif sender == recipient:
+        print("Нельзя отправить письмо самому себе!")
+    # Проверка на отправителя по умолчанию
+    elif sender == "university.help@gmail.com":
+        print(f"Письмо успешно отправлено с адреса {sender} на адрес {recipient}.")
+    # В случае нестандартного отправителя
+    else:
+        print(f"НЕСТАНДАРТНЫЙ ОТПРАВИТЕЛЬ! Письмо отправлено с адреса {sender} на адрес {recipient}.")
+
+# Примеры вызовов функции:
+send_email("Привет, как дела?", "igor-shatrov@yandex.ru") # Письмо успешно отправлено...
+send_email("Проверка", "invalid_email") # Невозможно отправить письмо...
+send_email("Проверка", "igor-shatrov@yandex.ru", sender="igor-shatrov@yandex.ru") # Нельзя отправить письмо самому себе!
+send_email("Привет", "igor-shatrov@yandex.ru", sender="any.sender@mail.com") # НЕСТАНДАРТНЫЙ ОТПРАВИТЕЛЬ!
