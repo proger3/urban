@@ -1,0 +1,14 @@
+def single_root_words(root_word, *other_words):
+    # Создаем пустой список для хранения подходящих слов
+    same_words = []
+
+    for word in other_words:
+     # Добавляем в список слово, если root_word содержится в word или наоборот
+      if root_word in word or word in root_word:
+        same_words.append(word)
+
+    return same_words
+
+# Пример вызова функции
+result = single_root_words("root", "rooted", "routing", "tree", "roots", "route", "stem")
+print(result)
