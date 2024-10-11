@@ -3,15 +3,15 @@ def get_multiplied_digits(number):
     first = int(str_number[0])
 
     if len(str_number) > 1:
-     return first * get_multiplied_digits(str_number[1:])
+        return first * get_multiplied_digits(int(str_number[1:]))
     else:
-      return first
+        return first
 
 # Примеры вызова функции
 result = get_multiplied_digits(60203)
 print(result)
 
-result = get_multiplied_digits(235)
+result = get_multiplied_digits(234)
 print(result)
 
 result = get_multiplied_digits(7)
