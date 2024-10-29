@@ -1,0 +1,32 @@
+def calculate_structure_sum(data):
+    total_sum = 0  # Переменная для суммирования чисел и длин строк
+
+    # Функция для рекурсивного обхода структуры
+    def recursive_sum(element):
+        nonlocal total_sum  # Используем внешнюю переменную для накопления суммы
+
+        if isinstance(element, int):  # Если элемент - число, добавляем его к сумме
+            total_sum += element
+        elif isinstance(element, str):  # Если элемент - строка, добавляем её длину
+            total_sum += len(element)
+        elif isinstance(element, (list, tuple, set)):
+            for item in element:
+                recursive_sum(item)
+        elif isinstance(element, dict):
+            for key, value in element.items():
+                recursive_sum(key)
+                recursive_sum(value)
+
+    recursive_sum(data)
+    return total_sum
+
+data_structure = [
+    [1, 2, 3],
+    {'a': 4, 'b': 5},
+    (6, {'cube': 7, 'drum': 8}),
+    "Hello",
+    ((), [{(2, 'Urban', ('Urban2', 35))}])
+]
+
+result = calculate_structure_sum(data_structure)
+print(result)
