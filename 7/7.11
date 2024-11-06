@@ -1,10 +1,9 @@
 import string
 
-
 class WordsFinder:
     def __init__(self, *file_names):
         self.file_names = file_names
-
+    
     def get_all_words(self):
         all_words = {}
         for file_name in self.file_names:
@@ -18,28 +17,30 @@ class WordsFinder:
             except FileNotFoundError:
                 print(f'Файл {file_name} не найден.')
         return all_words
-
+    
     def find(self, word):
         word = word.lower()
         result = {}
         for name, words in self.get_all_words().items():
-            if word in words:
-                position = words.index(word) + 1  # позиция с 1, а не 0
+            # Используем lower() для проверки каждого слова
+            words_lower = [w.lower() for w in words]
+            if word in words_lower:
+                position = words_lower.index(word) + 1  # позиция с 1, а не 0
                 result[name] = position
         return result
-
+    
     def count(self, word):
         word = word.lower()
         result = {}
         for name, words in self.get_all_words().items():
-            count = words.count(word)
+            # Считаем вхождения слова в нижнем регистре
+            count = sum(1 for w in words if w.lower() == word)
             if count > 0:
                 result[name] = count
         return result
 
-
 # Пример использования
 finder2 = WordsFinder('test_file.txt')
-print(finder2.get_all_words())
-print(finder2.find('TEXT'))
-print(finder2.count('teXT'))
+print(finder2.get_all_words())  # Все слова
+print(finder2.find('TEXT'))     # Позиция первого вхождения слова
+print(finder2.count('teXT'))    # Количество вхождений слова
