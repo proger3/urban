@@ -17,34 +17,38 @@ class Shop:
             with open(self.__file_name, 'r', encoding='utf-8') as file:
                 return file.read().strip()
         except FileNotFoundError:
-            return "Файл с продуктами не найден."
+            return ''
 
     def add(self, *products):
-        existing_products = set()
+        existing_products = self.get_products().split('\n')
+        existing_product_data = [line.split(', ') for line in existing_products if line]
 
-        try:
-            with open(self.__file_name, 'r', encoding='utf-8') as file:
-                for line in file:
-                    product_name = line.split(', ')[0]
-                    existing_products.add(product_name)
-        except FileNotFoundError:
-            pass
+        added_products = []
 
-        with open(self.__file_name, 'a', encoding='utf-8') as file:
-            for product in products:
-                if product.name not in existing_products:
-                    file.write(str(product) + '\n')
-                    existing_products.add(product.name)
-                else:
-                    print(f'Продукт {product.name} уже есть в магазине')
+        for product in products:
+            product_exists = any(
+                item[0] == product.name and float(item[1]) == product.weight
+                for item in existing_product_data
+            )
+
+            if product_exists:
+                print(f'Продукт {product.name} уже есть в магазине')
+            else:
+                added_products.append(str(product))
+
+        if added_products:
+            with open(self.__file_name, 'a', encoding='utf-8') as file:
+                for product in added_products:
+                    file.write(product + '\n')
 
 
+# Пример использования:
 s1 = Shop()
 p1 = Product('Potato', 50.5, 'Vegetables')
 p2 = Product('Spaghetti', 3.4, 'Groceries')
-p3 = Product('Potato', 5.5, 'Vegetables')
+p3 = Product('Potato', 50.5, 'Vegetables')
 
-print(p2)
+print(p2)  # __str__
 
 s1.add(p1, p2, p3)
 
