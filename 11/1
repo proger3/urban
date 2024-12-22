@@ -1,0 +1,33 @@
+import requests
+import pandas as pd
+import matplotlib.pyplot as plt
+
+url = "https://jsonplaceholder.typicode.com/posts"
+response = requests.get(url)
+if response.status_code == 200:
+    data = response.json()
+    print("Пример полученных данных с сайта:")
+    print(data[:3])  # Выводим первые три записи
+
+csv_url = "https://people.sc.fsu.edu/~jburkardt/data/csv/airtravel.csv"
+df = pd.read_csv(csv_url)
+df.columns = df.columns.str.strip().str.replace('"', '')
+print("\nПример данных из CSV:")
+print(df.head())  # Выводим первые пять строк
+
+print("\nАнализ данных:")
+print("Средние значения за месяц:")
+print(df.mean(numeric_only=True))  # Средние значения по числовым столбцам
+
+months = df["Month"]  # Названия месяцев
+values = df["1958"]  # Данные за 1958 год
+
+plt.figure(figsize=(10, 5))
+plt.bar(months, values, color='skyblue')
+plt.title("Количество пассажиров за 1958 год")
+plt.xlabel("Месяцы")
+plt.ylabel("Количество пассажиров")
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.savefig("passengers_1958.png")
+plt.show()
